@@ -1,7 +1,37 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+
+# Entornos locales
+
 .venv/
-data/raw/
-data/processed/
-__pycache__/
-*.pyc
-.ipynb_checkpoints/
-*.egg-info/
+venv/
+env/
+
+
+# VS Code
+
+.vscode/
+
+# Datos originales
+
+data/*
+!data/.gitkeep
+
+# Archivos temporales / logs
+
+*.log
+*.tmp
+*.temp
+
+# Sistema operativo
+
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración local
+.env
+.env.*
+!.env.example
