@@ -99,3 +99,7 @@ complete_protein_info = protein_links_alias.merge(
     suffixes=("_1", "_2")
 )
 complete_protein_info = complete_protein_info.drop(columns=["#string_protein_id_1", "#string_protein_id_2", "protein1", "protein2"])
+complete_protein_info = complete_protein_info.rename(columns={"preferred_name_1": "gene_1", "preferred_name_2": "gene_2" })
+complete_protein_info.head()
+
+complete_protein_info.to_csv(os.path.join(OUTPUT_DIR, "protein_info_csv"), index=False)
