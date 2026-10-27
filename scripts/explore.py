@@ -61,6 +61,8 @@ uniprot_map.columns
 uniprot_map.dtypes
 uniprot_map.sample(5)
 
+uniprot_map.to_csv(os.path.join(OUTPUT_DIR, "uniprot_map.csv"), index=False)
+
 # Contiene informacion sobre que proetine se ve target de que farmaco.
 
 # Transformaciones de los CSV

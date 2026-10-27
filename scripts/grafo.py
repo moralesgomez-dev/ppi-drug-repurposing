@@ -74,7 +74,7 @@ network.from_nx(top_50_subgraph)
 for node in network.nodes:
     protein = node["id"]
     node["label"] = str(protein)
-    node["title"] = f"Proteína: {protein}<br>Grado: {top_50_subgraph.degree[protein]}"
+    node["title"] = f"Proteína: {protein} - Grado: {top_50_subgraph.degree[protein]}"
 
 for edge in network.edges:
     if "combined_score" in edge:
@@ -84,6 +84,16 @@ network.show_buttons(filter_=["physics"])
 output_path = os.path.join(PROJECT_ROOT, "top_50_hubs.html")
 network.write_html(output_path, open_browser=False, notebook=False)
 print(f"Grafo interactivo guardado en: {output_path}")
+
+degree_df = pd.DataFrame(
+    degree_cent.items(),
+    columns=["uniprot_id", "degree_centrality"]
+)
+
+degree_df.head()
+degree_df.sample(5)
+
+degree_df.to_csv(os.path.join(DATA_PATH, "processed\\degree_centrality.csv"), index=False)
 
 
 
