@@ -180,18 +180,18 @@ for index, row in gene_summary.iterrows():
     category = row["category"]
     degree = round(row["degree_centrality"] * (len(giant_nodes) - 1))
     if row["chembl_target"]:
-        target_html = escape(row["chembl_target"]).replace("; ", "<br>")
+        target_text = escape(row["chembl_target"])
     else:
-        target_html = "Ninguna"
+        target_text = "Ninguna"
     tooltip = (
         f"Gene symbol: {escape(row['symbol'])}"
-        f"UniProt: {escape(uniprot_id)}"
-        f"Global score: {row['globalScore']:.4f}"
-        f"Degree en G_giant: {degree}"
-        f"Registro ChEMBL de diana: "
+        f" | UniProt: {escape(uniprot_id)}"
+        f" | Global score: {row['globalScore']:.4f}"
+        f" | Degree en G_giant: {degree}"
+        f" | Registro ChEMBL de diana: "
         f"{'Sí' if row['chembl_target'] else 'No'}"
-        f"Diana(s) ChEMBL: {target_html}<br>"
-        f"Tipo: {category_labels[category]}"
+        f" | Diana(s) ChEMBL: {target_text}"
+        f" | Tipo: {category_labels[category]}"
     )
     net.add_node(
         uniprot_id,
@@ -260,4 +260,3 @@ print(f"Genes Alzheimer incluidos: {len(subgraph.nodes)}")
 print(f"Interacciones en el subgrafo: {len(subgraph.edges)}")
 print(f"Grafo interactivo guardado en: {OUTPUT_PATH}")
 print(f"Gráfico estático guardado en: {FIGURE_PATH}")
-

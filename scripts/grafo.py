@@ -1,7 +1,6 @@
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-import seaborn as sns
 import os
 
 
@@ -29,6 +28,9 @@ print("Nodos del grafo:", len(G_giant.nodes))
 print("Aristas del grafo:", len(G_giant.edges))
 # Este componente principal resulta ser casi la red entera 
 
+FIGURES_PATH = os.path.join(PROJECT_ROOT, "results", "figures")
+os.makedirs(FIGURES_PATH, exist_ok=True)
+
 # Metricas de centralidad:
 degree_cent = nx.degree_centrality(G_giant)
 # betweenness_cent = nx.betweenness_centrality(G_giant, k=500)
@@ -39,23 +41,32 @@ top_50_hubs = sorted(degree_cent, key=degree_cent.get, reverse=True)[:50]
 print("Top 50 hubs por degree:", top_50_hubs)
 
 # Distribucion de grados
-print(G_giant.degree()) # lista de pares
 G_giant_degrees = [d for n, d in G_giant.degree()]
 plt.figure(figsize=(10, 6))
-sns.histplot(G_giant_degrees, bins=50, kde=True)
+plt.hist(G_giant_degrees, bins=50)
 plt.xlabel("Grado")
 plt.ylabel("Frecuencia")
 plt.title("Distribución de Grados")
-plt.show()
+plt.tight_layout()
+plt.savefig(
+    os.path.join(FIGURES_PATH, "degree_distribution.png"),
+    dpi=300,
+)
+plt.close()
 
 # Distribucion de centralidad de grado
 degree_centrality_values = list(degree_cent.values())
 plt.figure(figsize=(10, 6))
-sns.histplot(degree_centrality_values, bins=50, kde=True)
+plt.hist(degree_centrality_values, bins=50)
 plt.xlabel("Centralidad de Grado")
 plt.ylabel("Frecuencia")
 plt.title("Distribución de Centralidad de Grado")
-plt.show()
+plt.tight_layout()
+plt.savefig(
+    os.path.join(FIGURES_PATH, "degree_centrality_distribution.png"),
+    dpi=300,
+)
+plt.close()
 
 # Subgrafo de los top 50 hubs con Pyvis - HTML interactivo
 from pyvis.network import Network
@@ -81,7 +92,7 @@ for edge in network.edges:
         edge["title"] = f"Puntuación combinada: {edge['combined_score']}"
 
 network.show_buttons(filter_=["physics"])
-output_path = os.path.join(PROJECT_ROOT, "top_50_hubs.html")
+output_path = os.path.join(FIGURES_PATH, "top_50_hubs.html")
 network.write_html(output_path, open_browser=False, notebook=False)
 print(f"Grafo interactivo guardado en: {output_path}")
 
@@ -94,8 +105,4 @@ degree_df.head()
 degree_df.sample(5)
 
 degree_df.to_csv(os.path.join(DATA_PATH, "processed\\degree_centrality.csv"), index=False)
-
-
-
-
 
